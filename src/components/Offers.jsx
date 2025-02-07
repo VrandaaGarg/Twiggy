@@ -61,7 +61,7 @@ function Offers() {
       <div className="pt-10 mx-10">
         <h1 className="text-3xl font-bold mb-5 text-red-700">Offers📢</h1>
 
-        <div className="mb-10 flex justify-between">
+        <div className="mb-10 flex justify-between flex-wrap gap-4">
           <div className="">
             <FilterCard
               variableFunc={setTenDisc}
