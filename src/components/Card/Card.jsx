@@ -1,7 +1,11 @@
 import React, { useState } from "react";
+import { useCart } from "../../context/CartContext";
 
-function Card({ Name, mrp, type, img, timeForDelivery, rating }) {
+function Card({ id, Name, mrp, type, img, timeForDelivery, rating }) {
   const [showPopup, setShowPopup] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const { addToCart } = useCart();
+
   const vegIcon = type === "Veg" ? (
     <div className="w-4 h-4 border border-green-500 p-0.5">
       <div className="w-full h-full rounded-full bg-green-500"></div>
@@ -12,12 +16,17 @@ function Card({ Name, mrp, type, img, timeForDelivery, rating }) {
     </div>
   );
 
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    addToCart({ id, Name, mrp, type, img, timeForDelivery, rating });
+    setShowNotification(true);
+    setTimeout(() => setShowNotification(false), 2000);
+  };
+
   return (
-    <>
-      <div 
-        className="card-base group cursor-pointer animate-fade-in"
-        onClick={() => setShowPopup(true)}
-      >
+    <div className="relative">
+      {/* Main Card */}
+      <div className="card-base group cursor-pointer">
         {/* Image Container */}
         <div className="relative overflow-hidden h-48 sm:h-56">
           <img
@@ -32,23 +41,17 @@ function Card({ Name, mrp, type, img, timeForDelivery, rating }) {
         </div>
 
         {/* Content Container */}
-        <div className="p-4">
+        <div className="p-4" onClick={() => setShowPopup(true)}>
           <h3 className="font-bold text-lg text-gray-800 line-clamp-1 mb-2">{Name}</h3>
-
           <div className="flex items-center gap-3 mb-3">
-            <span className="badge bg-green-100 text-green-800 flex items-center gap-1">
-              <span>⭐</span> {rating}
-            </span>
-            <span className="badge bg-blue-100 text-blue-800">
-              {timeForDelivery} mins
-            </span>
+            <span className="badge bg-green-100 text-green-800">⭐ {rating}</span>
+            <span className="badge bg-blue-100 text-blue-800">{timeForDelivery} mins</span>
           </div>
-
           <div className="flex items-center justify-between pt-2 border-t">
             <span className="price-tag">₹{mrp}</span>
             <button 
               className="btn-primary flex items-center gap-2"
-              onClick={(e) => e.stopPropagation()}
+              onClick={handleAddToCart}
             >
               Add <span className="text-lg">+</span>
             </button>
@@ -56,7 +59,14 @@ function Card({ Name, mrp, type, img, timeForDelivery, rating }) {
         </div>
       </div>
 
-      {/* Modal Popup */}
+      {/* Success Notification */}
+      {showNotification && (
+        <div className="absolute top-2 right-2 left-2 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg animate-slide-down text-center">
+          Added to cart!
+        </div>
+      )}
+
+      {/* Modal */}
       {showPopup && (
         <div 
           className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
@@ -66,14 +76,12 @@ function Card({ Name, mrp, type, img, timeForDelivery, rating }) {
             className="relative bg-white rounded-2xl max-w-xl w-full animate-slide-up overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
+            {/* Close Button */}
             <button
               className="absolute top-4 right-4 z-10 bg-white/80 rounded-full p-2 backdrop-blur-sm hover:bg-white transition-colors"
               onClick={() => setShowPopup(false)}
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              ✕
             </button>
 
             {/* Modal Content */}
@@ -93,22 +101,14 @@ function Card({ Name, mrp, type, img, timeForDelivery, rating }) {
               </div>
 
               <div className="flex flex-wrap gap-4 mb-6">
-                <div className="flex items-center gap-2">
-                  <span className="text-yellow-400 text-xl">⭐</span>
-                  <span className="font-semibold">{rating}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-blue-500">🕒</span>
-                  <span>{timeForDelivery} mins delivery</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-green-500">₹</span>
-                  <span className="font-bold text-xl">{mrp}</span>
-                </div>
+                <div className="badge bg-yellow-100 text-yellow-800">⭐ {rating}</div>
+                <div className="badge bg-blue-100 text-blue-800">🕒 {timeForDelivery} mins</div>
+                <div className="badge bg-green-100 text-green-800">₹{mrp}</div>
               </div>
 
               <button 
                 className="w-full btn-primary py-3 text-lg font-semibold"
+                onClick={handleAddToCart}
               >
                 Add to Cart
               </button>
@@ -116,7 +116,7 @@ function Card({ Name, mrp, type, img, timeForDelivery, rating }) {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
