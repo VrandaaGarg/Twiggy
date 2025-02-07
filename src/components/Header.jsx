@@ -1,95 +1,95 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "/Images/logo.png";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <div className="fixed top-0 w-full z-10">
-      <div className="flex justify-between bg-gray-100 p-3  w-full z-10 shadow-md">
-        {/* Logo */}
-        <div className="ml-3 flex items-center">
-          <img src={logo} alt="logo" width="50" height="50" />
-        </div>
+    <div className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0 flex items-center">
+            <img src={logo} alt="logo" className="h-10 w-auto" />
+          </div>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center">
-          <ul className="flex space-x-4">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex space-x-8">
             {[
-              { name: "HOME", path: "" }, // Updated to direct home to ""
+              { name: "HOME", path: "" },
               { name: "ABOUT US", path: "about" },
               { name: "OFFERS", path: "offer" },
               { name: "CUISINES", path: "cuisine" },
-            ].map(({ name, path }, index) => (
-              <li key={index}>
-                <NavLink
-                  to={`/${path}`}
-                  className={({ isActive }) =>
-                    `font-bold text-lg px-3 ${
-                      isActive ? "text-red-700" : "text-black"
-                    }`
-                  }
-                >
-                  {name}
-                </NavLink>
-              </li>
+            ].map(({ name, path }) => (
+              <NavLink
+                key={name}
+                to={`/${path}`}
+                className={({ isActive }) =>
+                  `text-sm font-medium transition-colors duration-200 hover:text-primary ${
+                    isActive ? 'text-primary' : 'text-gray-700'
+                  }`
+                }
+              >
+                {name}
+              </NavLink>
             ))}
-          </ul>
-        </div>
+          </nav>
 
-        {/* Cart & Login Button */}
-        <div className="flex items-center mr-5 gap-3">
-          <NavLink to="/cart">
-            <button className="relative">
-              <p className="text-2xl">🛒</p>
-              <div className="absolute top-0 right-0">
-                <p className="bg-orange-600 text-xs text-white w-5 h-5 flex items-center justify-center rounded-full">
-                  4
-                </p>
-              </div>
+          {/* Right section */}
+          <div className="flex items-center space-x-4">
+            <NavLink to="/cart" className="relative group">
+              <span className="text-2xl group-hover:scale-110 transition-transform duration-200">🛒</span>
+              <span className="absolute -top-1 -right-1 bg-primary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">4</span>
+            </NavLink>
+
+            <button className="hidden md:flex items-center px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary-dark transition-colors duration-200">
+              Login
             </button>
-          </NavLink>
 
-          <button className="bg-red-700 text-white px-3 py-2 text-lg font-bold rounded-lg hidden md:block">
-            Login
-          </button>
-
-          {/* Hamburger Button (Mobile) */}
-          <button
-            className="md:hidden text-3xl"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            ☰
-          </button>
+            <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
+              <span className="text-2xl">☰</span>
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white shadow-md absolute top-14 w-full z-20 flex flex-col items-center py-3">
-          {[
-            { name: "HOME", path: "" }, // Updated here too
-            { name: "ABOUT US", path: "about" },
-            { name: "OFFERS", path: "offer" },
-            { name: "CUISINES", path: "cuisine" },
-          ].map(({ name, path }, index) => (
-            <NavLink
-              key={index}
-              to={`/${path}`}
-              className="py-2 text-lg font-bold text-black"
+        <div className="md:hidden absolute top-16 inset-x-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 animate-fade-in">
+          <div className="px-4 pt-2 pb-3 space-y-1">
+            {[
+              { name: "HOME", path: "" },
+              { name: "ABOUT US", path: "about" },
+              { name: "OFFERS", path: "offer" },
+              { name: "CUISINES", path: "cuisine" },
+            ].map(({ name, path }, index) => (
+              <NavLink
+                key={index}
+                to={`/${path}`}
+                className="py-2 text-lg font-bold text-black"
+                onClick={() => setIsOpen(false)}
+              >
+                {name}
+              </NavLink>
+            ))}
+
+            <button
+              className="bg-red-700 text-white px-3 py-2 text-lg font-bold rounded-lg mt-2"
               onClick={() => setIsOpen(false)}
             >
-              {name}
-            </NavLink>
-          ))}
-
-          <button
-            className="bg-red-700 text-white px-3 py-2 text-lg font-bold rounded-lg mt-2"
-            onClick={() => setIsOpen(false)}
-          >
-            Login
-          </button>
+              Login
+            </button>
+          </div>
         </div>
       )}
     </div>
