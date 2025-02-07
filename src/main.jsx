@@ -18,7 +18,7 @@ import Cuisine from "./components/Cuisine.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
-      <Route path="" element={<Home />} />
+      <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/offer" element={<Offers />} />
       <Route path="/cart" element={<Cart />} />
