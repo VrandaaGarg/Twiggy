@@ -53,50 +53,50 @@ function Home() {
   }, [veg, nonVeg, rate, time, mrp]);
 
   const filterButtons = [
-    { 
-      label: 'Veg', 
-      state: veg, 
-      setter: setVeg, 
-      icon: '🟢',
-      activeClass: 'bg-green-500 text-white shadow-lg',
-      inactiveClass: 'bg-white text-gray-700 border-green-500 border'
+    {
+      label: "Veg",
+      state: veg,
+      setter: setVeg,
+      icon: "🟢",
+      activeClass: "bg-green-500 text-white shadow-lg",
+      inactiveClass: "bg-white text-gray-700 border-green-500 border",
     },
-    { 
-      label: 'Non-Veg', 
-      state: nonVeg, 
-      setter: setNonVeg, 
-      icon: '🔴',
-      activeClass: 'bg-red-500 text-white',
-      inactiveClass: 'bg-white text-gray-700 border-red-500 border'
+    {
+      label: "Non-Veg",
+      state: nonVeg,
+      setter: setNonVeg,
+      icon: "🔴",
+      activeClass: "bg-red-500 text-white",
+      inactiveClass: "bg-white text-gray-700 border-red-500 border",
     },
-    { 
-      label: 'Rating > 3.5', 
-      state: rate, 
-      setter: setRate, 
-      icon: '⭐',
-      activeClass: 'bg-yellow-500 text-white',
-      inactiveClass: 'bg-white text-gray-700 border-yellow-500 border'
+    {
+      label: "Rating > 3.5",
+      state: rate,
+      setter: setRate,
+      icon: "⭐",
+      activeClass: "bg-yellow-500 text-white",
+      inactiveClass: "bg-white text-gray-700 border-yellow-500 border",
     },
-    { 
-      label: '≤ 30 mins', 
-      state: time, 
-      setter: setTime, 
-      icon: '⏱️',
-      activeClass: 'bg-blue-500 text-white',
-      inactiveClass: 'bg-white text-gray-700 border-blue-500 border'
+    {
+      label: "≤ 30 mins",
+      state: time,
+      setter: setTime,
+      icon: "⏱️",
+      activeClass: "bg-blue-500 text-white",
+      inactiveClass: "bg-white text-gray-700 border-blue-500 border",
     },
-    { 
-      label: '≤ ₹200', 
-      state: mrp, 
-      setter: setMrp, 
-      icon: '💰',
-      activeClass: 'bg-green-500 text-white',
-      inactiveClass: 'bg-white text-gray-700 border-green-500 border'
-    }
+    {
+      label: "≤ ₹200",
+      state: mrp,
+      setter: setMrp,
+      icon: "💰",
+      activeClass: "bg-green-500 text-white",
+      inactiveClass: "bg-white text-gray-700 border-green-500 border",
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-black dark:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
         {/* What's on your mind section */}
         <section className="py-12 animate-fade-in">
@@ -131,21 +131,23 @@ function Home() {
           <h2 className="text-3xl font-bold text-gray-900 mb-8">
             Online Food Delivery
           </h2>
-          
+
           <div className="flex flex-wrap gap-3 mb-8">
-            {filterButtons.map(({ label, state, setter, icon, activeClass, inactiveClass }) => (
-              <button
-                key={label}
-                onClick={() => setter(!state)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200
+            {filterButtons.map(
+              ({ label, state, setter, icon, activeClass, inactiveClass }) => (
+                <button
+                  key={label}
+                  onClick={() => setter(!state)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200
                   transform hover:-translate-y-0.5 hover:shadow-md
                   ${state ? activeClass : inactiveClass}
                   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
-              >
-                <span className="text-lg">{icon}</span>
-                <span className="font-medium">{label}</span>
-              </button>
-            ))}
+                >
+                  <span className="text-lg">{icon}</span>
+                  <span className="font-medium">{label}</span>
+                </button>
+              )
+            )}
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
