@@ -7,30 +7,101 @@ function Cart() {
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 pt-28 px-4">
-        <div className="max-w-2xl mx-auto text-center py-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Your cart is empty</h2>
-          <p className="text-gray-600 mb-8">Add some delicious items to your cart!</p>
-          <Link
-            to="/"
-            className="inline-block bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition-colors"
-          >
-            Browse Menu
-          </Link>
+      <div className="min-h-screen bg-gray-50 pt-20">
+        <div className="max-w-2xl mx-auto text-center p-8">
+          {/* Empty Cart Icon */}
+          <div className="mb-8 animate-fade-in">
+            <div className="mx-auto w-48 h-48 rounded-full bg-gray-100 flex items-center justify-center">
+              <div className="relative">
+                <svg
+                  className="w-24 h-24 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Empty Cart Content */}
+          <div className="space-y-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <h2 className="text-3xl font-bold text-gray-900">
+              Your cart looks empty
+            </h2>
+            <p className="text-gray-600 max-w-md mx-auto text-lg">
+              Add some delicious items from our menu and start your food journey!
+            </p>
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 
+                         text-white px-8 py-4 rounded-full hover:shadow-lg transform 
+                         transition-all duration-200 hover:-translate-y-1 font-medium text-lg"  
+            >
+              <span>Explore Menu</span>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </Link>
+          </div>
+
+          {/* Suggestions */}
+          <div className="mt-12 pt-12 border-t border-gray-200">
+            <p className="text-gray-500 mb-4">Popular Categories</p>
+            <div className="flex flex-wrap justify-center gap-3">
+              {['Pizza', 'Burgers', 'Indian', 'Chinese'].map(category => (
+                <Link
+                  key={category}
+                  to="/"
+                  className="px-6 py-2 rounded-full border border-gray-300 text-gray-600
+                           hover:border-blue-500 hover:text-blue-500 transition-colors"
+                >
+                  {category}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-28 px-4">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Your Cart</h1>
+    <div className="min-h-screen bg-gray-50 pt-20">
+      <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3">
+          <span>Your Cart</span>
+          <span className="text-lg font-medium text-gray-500">
+            ({cartItems.length} {cartItems.length === 1 ? 'item' : 'items'})
+          </span>
+        </h1>
 
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
           <div className="divide-y divide-gray-200">
             {cartItems.map((item) => (
-              <div key={item.id} className="p-6 flex flex-col sm:flex-row sm:items-center">
+              <div 
+                key={item.id} 
+                className="p-6 flex flex-col sm:flex-row sm:items-center animate-fade-in"
+              >
                 <div className="flex-shrink-0 w-full sm:w-24 h-24 mb-4 sm:mb-0">
                   <img
                     src={item.img}
@@ -80,14 +151,20 @@ function Cart() {
             ))}
           </div>
 
-          <div className="bg-gray-50 px-6 py-4">
+          <div className="bg-gray-50 p-6">
             <div className="flex justify-between items-center mb-4">
-              <span className="text-lg font-medium">Subtotal</span>
-              <span className="text-2xl font-bold">₹{getCartTotal()}</span>
+              <span className="text-lg font-medium text-gray-600">Subtotal</span>
+              <span className="text-3xl font-bold text-gray-900">₹{getCartTotal()}</span>
             </div>
-            <button className="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-colors">
+            <button className="w-full bg-gradient-to-r from-primary to-primary-dark 
+                             text-white py-4 rounded-xl font-semibold
+                             hover:shadow-lg transform transition-all duration-200 
+                             hover:-translate-y-0.5">
               Proceed to Checkout
             </button>
+            <p className="text-center text-sm text-gray-500 mt-4">
+              Free delivery on orders above ₹499
+            </p>
           </div>
         </div>
       </div>

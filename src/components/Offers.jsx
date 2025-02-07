@@ -1,129 +1,96 @@
 import React, { useEffect, useState } from "react";
-import OfferCard from "./Card/OfferCard";
+import Card from "./Card/Card";
 import Data from "./Data/Data";
-import FilterCard from "./Card/FilterCard";
 
 function Offers() {
-  const [tenDisc, setTenDisc] = useState(true);
-  const [twentyDisc, setTwentyDisc] = useState(false);
-  const [thirtyDisc, setThirtyDisc] = useState(false);
-  const [fiftyDisc, setFiftyDisc] = useState(false);
-  const [seventyFive, setSeventyFive] = useState(false);
-  const [filteredItems, setFilteredItems] = useState(Data);
+  const [activeFilter, setActiveFilter] = useState(10);
+  const [filteredItems, setFilteredItems] = useState([]);
 
-  const OfferFunc = () => {
-    let FoodItems = Data;
+  // Only get items that have offers
+  const itemsWithOffers = Data.filter(item => item.offer > 0);
 
-    if (tenDisc) {
-      FoodItems = FoodItems.filter((item) => item.offer >= 10);
-    }
-    if (twentyDisc) {
-      FoodItems = FoodItems.filter((item) => item.offer >= 20);
-    }
-    if (thirtyDisc) {
-      FoodItems = FoodItems.filter((item) => item.offer >= 30);
-    }
-    if (fiftyDisc) {
-      FoodItems = FoodItems.filter((item) => item.offer >= 50);
-    }
-    if (seventyFive) {
-      FoodItems = FoodItems.filter((item) => item.offer >= 75);
-    }
-    setFilteredItems(FoodItems);
-  };
+  const discountFilters = [
+    { value: 10, label: '≥10% OFF' },
+    { value: 20, label: '≥20% OFF' },
+    { value: 30, label: '≥30% OFF' },
+    { value: 50, label: '≥50% OFF' },
+    { value: 75, label: '≥75% OFF' },
+  ];
 
   useEffect(() => {
-    OfferFunc();
-  }, [tenDisc, twentyDisc, thirtyDisc, fiftyDisc, seventyFive]);
+    const filtered = itemsWithOffers.filter((item) => item.offer >= activeFilter);
+    setFilteredItems(filtered);
+  }, [activeFilter]);
 
   return (
-    <div className="bg-gray-100 pb-20">
-      <div className="pt-24 mx-10 border-b pb-16 border-black/25">
-        <h1 className="text-3xl text-red-700 font-bold mb-10">
-          Deal Of The Day💥
-        </h1>
-        <div className="flex flex-wrap gap-8">
-          {Data.filter((item) => item.offer >= 70).map((item) => (
-            <OfferCard
-              key={item.id}
-              Name={item.Name}
-              img={item.img}
-              mrp={item.mrp}
-              timeForDelivery={item.timeForDelivery}
-              rating={item.rating}
-              offer={item.offer}
-              type={item.type}
-            />
-          ))}
-        </div>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24">
+        {/* Deal of the Day Section */}
+        <section className="mb-12 animate-fade-in">
+          <div className="flex items-center gap-3 mb-8">
+            <h1 className="text-3xl font-bold text-gray-900">
+              Deal of the Day
+            </h1>
+            <span className="animate-bounce text-2xl">💥</span>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {itemsWithOffers
+              .filter(item => item.offer >= 70)
+              .map((item, index) => (
+                <div
+                  key={item.id}
+                  className="animate-fade-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <Card {...item} />
+                </div>
+              ))}
+          </div>
+        </section>
 
-      <div className="pt-10 mx-10">
-        <h1 className="text-3xl font-bold mb-5 text-red-700">Offers📢</h1>
-
-        <div className="mb-10 flex justify-between flex-wrap gap-4">
-          <div className="">
-            <FilterCard
-              variableFunc={setTenDisc}
-              Name="ten"
-              variable={tenDisc}
-              label="≥10% Discount"
-            />
+        {/* All Offers Section */}
+        <section className="py-12 border-t border-gray-200">
+          <div className="flex items-center gap-3 mb-8">
+            <h2 className="text-3xl font-bold text-gray-900">All Offers</h2>
+            <span className="animate-bounce text-2xl">🎉</span>
           </div>
 
-          <div>
-            <FilterCard
-              variableFunc={setTwentyDisc}
-              Name="twenty"
-              variable={twentyDisc}
-              label="≥20% Discount"
-            />
+          {/* Discount Filters */}
+          <div className="flex flex-wrap gap-3 mb-8">
+            {discountFilters.map(({ value, label }) => (
+              <button
+                key={value}
+                onClick={() => setActiveFilter(value)}
+                className={`px-4 py-2 rounded-full transition-all duration-200
+                  ${activeFilter === value 
+                    ? 'bg-red-500 text-white shadow-lg scale-105' 
+                    : 'bg-white text-gray-700 border border-red-500 hover:bg-red-50'}
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500`}
+              >
+                {label}
+              </button>
+            ))}
           </div>
 
-          <div>
-            <FilterCard
-              variableFunc={setThirtyDisc}
-              Name="thirty"
-              variable={thirtyDisc}
-              label="≥30% Discount"
-            />
+          {/* Filtered Items Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredItems.map((item, index) => (
+              <div
+                key={item.id}
+                className="animate-fade-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <Card {...item} />
+              </div>
+            ))}
+            {filteredItems.length === 0 && (
+              <div className="col-span-full text-center py-12 text-gray-500">
+                No items available with {activeFilter}% or more discount
+              </div>
+            )}
           </div>
-
-          <div>
-            <FilterCard
-              variableFunc={setFiftyDisc}
-              Name="fifty"
-              variable={fiftyDisc}
-              label="≥50% Discount"
-            />
-          </div>
-
-          <div>
-            <FilterCard
-              variableFunc={setSeventyFive}
-              Name="seventy"
-              variable={seventyFive}
-              label="≥75% Discount"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="mx-10 ">
-        <div className="flex flex-wrap justify-around">
-          {filteredItems.map((item) => (
-            <OfferCard
-              key={item.id}
-              Name={item.Name}
-              mrp={item.mrp}
-              type={item.type}
-              img={item.img}
-              timeForDelivery={item.timeForDelivery}
-              rating={item.rating}
-              offer={item.offer}
-            />
-          ))}
-        </div>
+        </section>
       </div>
     </div>
   );
