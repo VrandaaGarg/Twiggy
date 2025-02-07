@@ -58,7 +58,7 @@ function Home() {
         <div className="px-16 bg-gray-100">
           <div className="pt-20 pb-7 border-b-2 border-gray-200 mb-10">
             <h1 className="text-3xl font-bold mb-2">What's on your mind?</h1>
-            <div className="flex justify-between">
+            <div className="flex justify-between flex-wrap">
               {randomIndices.map((index) => (
                 <div key={index} className="">
                   <ItemCard img={Data[index].img} Name={Data[index].Name} />
@@ -91,7 +91,7 @@ function Home() {
           <div className="">
             <h1 className="text-3xl font-bold mb-9">Online Food Delivery</h1>
 
-            <div className="flex justify-around">
+            <div className="flex justify-around flex-wrap gap-3">
               <div
                 className={`bg-white px-5 border border-black rounded-xl ${
                   veg ? "bg-gray-400" : ""

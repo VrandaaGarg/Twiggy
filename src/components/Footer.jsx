@@ -4,8 +4,8 @@ import logo from "/Images/logo.png";
 function Footer() {
   return (
     <div className="">
-      <div className=" py-16 px-28 flex flex-row justify-around">
-        <div className="flex flex-col ">
+      <div className=" py-16 px-28 flex flex-col md:flex-row justify-around">
+        <div className="flex flex-col">
           <div className="flex">
             <img src={logo} alt="" className="w-8" />
             <h1 className="text-red-700 text-3xl font-bold">wiggy</h1>
