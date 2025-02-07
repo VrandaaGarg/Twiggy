@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import OfferCard from "../Card/OfferCard";
-import Data from "../Data/Data";
-import FilterCard from "../Card/FilterCard";
+import OfferCard from "./Card/OfferCard";
+import Data from "./Data/Data";
+import FilterCard from "./Card/FilterCard";
 
 function Offers() {
   const [tenDisc, setTenDisc] = useState(true);

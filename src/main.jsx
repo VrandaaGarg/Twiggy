@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
 import "./index.css";
 import {
   createBrowserRouter,
@@ -9,12 +8,12 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Layout from "./Layout.jsx";
-import Home from "./components/Home/Home.jsx";
-import About from "./components/About/About.jsx";
-import Offers from "./components/Offers/Offers.jsx";
-import Cart from "./components/Cart/Cart.jsx";
-import User from "./components/User/User.jsx";
-import Cuisine from "./components/Cuisine/Cuisine.jsx";
+import Home from "./components/Home.jsx";
+import About from "./components/About.jsx";
+import Offers from "./components/Offers.jsx";
+import Cart from "./components/Cart.jsx";
+import User from "./components/User.jsx";
+import Cuisine from "./components/Cuisine.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

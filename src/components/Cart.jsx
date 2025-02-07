@@ -1,5 +1,5 @@
 import React from "react";
-import CartCard from "../Card/CartCard";
+import CartCard from "./Card/CartCard";
 
 function Cart() {
   return (
