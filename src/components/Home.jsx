@@ -53,56 +53,63 @@ function Home() {
   }, [veg, nonVeg, rate, time, mrp]);
 
   const filterButtons = [
-    { 
-      label: 'Veg', 
-      state: veg, 
-      setter: setVeg, 
-      icon: '🟢',
-      activeClass: 'bg-green-500 text-white shadow-lg',
-      inactiveClass: 'bg-white text-gray-700 border-green-500 border'
+    {
+      label: "Veg",
+      state: veg,
+      setter: setVeg,
+      icon: "🟢",
+      activeClass: "bg-green-500 text-white shadow-lg",
+      inactiveClass: "bg-white text-gray-700 border-green-500 border",
     },
-    { 
-      label: 'Non-Veg', 
-      state: nonVeg, 
-      setter: setNonVeg, 
-      icon: '🔴',
-      activeClass: 'bg-red-500 text-white',
-      inactiveClass: 'bg-white text-gray-700 border-red-500 border'
+    {
+      label: "Non-Veg",
+      state: nonVeg,
+      setter: setNonVeg,
+      icon: "🔴",
+      activeClass: "bg-red-500 text-white",
+      inactiveClass: "bg-white text-gray-700 border-red-500 border",
     },
-    { 
-      label: 'Rating > 3.5', 
-      state: rate, 
-      setter: setRate, 
-      icon: '⭐',
-      activeClass: 'bg-yellow-500 text-white',
-      inactiveClass: 'bg-white text-gray-700 border-yellow-500 border'
+    {
+      label: "Rating > 3.5",
+      state: rate,
+      setter: setRate,
+      icon: "⭐",
+      activeClass: "bg-yellow-500 text-white",
+      inactiveClass: "bg-white text-gray-700 border-yellow-500 border",
     },
-    { 
-      label: '≤ 30 mins', 
-      state: time, 
-      setter: setTime, 
-      icon: '⏱️',
-      activeClass: 'bg-blue-500 text-white',
-      inactiveClass: 'bg-white text-gray-700 border-blue-500 border'
+    {
+      label: "≤ 30 mins",
+      state: time,
+      setter: setTime,
+      icon: "⏱️",
+      activeClass: "bg-blue-500 text-white",
+      inactiveClass: "bg-white text-gray-700 border-blue-500 border",
     },
-    { 
-      label: '≤ ₹200', 
-      state: mrp, 
-      setter: setMrp, 
-      icon: '💰',
-      activeClass: 'bg-green-500 text-white',
-      inactiveClass: 'bg-white text-gray-700 border-green-500 border'
-    }
+    {
+      label: "≤ ₹200",
+      state: mrp,
+      setter: setMrp,
+      icon: "💰",
+      activeClass: "bg-green-500 text-white",
+      inactiveClass: "bg-white text-gray-700 border-green-500 border",
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600 inline-block">
+            What's on your mind?
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-10">
+            Explore your favorite dishes from our curated collection
+          </p>
+        </div>
+
         {/* What's on your mind section */}
         <section className="py-12 animate-fade-in">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">
-            What's on your mind?
-          </h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
             {randomIndices.map((index) => (
               <div key={index}>
@@ -113,10 +120,12 @@ function Home() {
         </section>
 
         {/* Speciality section */}
-        <section className="py-12 border-t animate-fade-in">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">
-            Our Speciality
-          </h2>
+        <section className="py-12 border-t dark:border-gray-800 animate-fade-in">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600 inline-block">
+              Our Speciality
+            </h2>
+          </div>
           <div className="grid md:grid-cols-2 gap-6">
             {Data.map((data, index) =>
               data.id === 33 || data.id === 34 ? (
@@ -127,25 +136,33 @@ function Home() {
         </section>
 
         {/* Filters section */}
-        <section className="py-12 border-t animate-fade-in">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">
-            Online Food Delivery
-          </h2>
-          
+        <section className="py-12 border-t dark:border-gray-800 animate-fade-in">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600 inline-block">
+              Online Food Delivery
+            </h2>
+          </div>
+
           <div className="flex flex-wrap gap-3 mb-8">
-            {filterButtons.map(({ label, state, setter, icon, activeClass, inactiveClass }) => (
-              <button
-                key={label}
-                onClick={() => setter(!state)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200
+            {filterButtons.map(
+              ({ label, state, setter, icon, activeClass, inactiveClass }) => (
+                <button
+                  key={label}
+                  onClick={() => setter(!state)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200
                   transform hover:-translate-y-0.5 hover:shadow-md
-                  ${state ? activeClass : inactiveClass}
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
-              >
-                <span className="text-lg">{icon}</span>
-                <span className="font-medium">{label}</span>
-              </button>
-            ))}
+                  ${state 
+                    ? activeClass 
+                    : `${inactiveClass} dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700`
+                  }
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+                  dark:focus:ring-offset-gray-900`}
+                >
+                  <span className="text-lg">{icon}</span>
+                  <span className="font-medium">{label}</span>
+                </button>
+              )
+            )}
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

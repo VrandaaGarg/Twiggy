@@ -50,16 +50,16 @@ function Card({ id, Name, mrp, type, img, timeForDelivery, rating, offer }) {
 
         {/* Content Container */}
         <div className="p-4" onClick={() => setShowPopup(true)}>
-          <h3 className="font-bold text-lg text-gray-800 line-clamp-1 mb-2">{Name}</h3>
+          <h3 className="font-bold text-lg text-gray-900 dark:text-white line-clamp-1 mb-2">{Name}</h3>
           <div className="flex items-center gap-3 mb-3">
-            <span className="badge bg-green-100 text-green-800">⭐ {rating}</span>
-            <span className="badge bg-blue-100 text-blue-800">{timeForDelivery} mins</span>
+            <span className="badge badge-success">⭐ {rating}</span>
+            <span className="badge badge-primary">{timeForDelivery} mins</span>
           </div>
-          <div className="flex items-center justify-between pt-2 border-t">
+          <div className="flex items-center justify-between pt-2 border-t dark:border-gray-700">
             <div className="flex items-center gap-2">
               <span className="price-tag">₹{finalPrice}</span>
               {offer > 0 && (
-                <span className="text-sm text-gray-500 line-through">
+                <span className="text-sm text-muted line-through">
                   ₹{originalPrice}
                 </span>
               )}
@@ -84,11 +84,11 @@ function Card({ id, Name, mrp, type, img, timeForDelivery, rating, offer }) {
       {/* Modal */}
       {showPopup && (
         <div 
-          className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 bg-black/60 dark:bg-black/80 flex items-center justify-center z-50 p-4"
           onClick={() => setShowPopup(false)}
         >
           <div 
-            className="relative bg-white rounded-2xl max-w-xl w-full animate-slide-up overflow-hidden"
+            className="relative bg-white dark:bg-gray-800 rounded-2xl max-w-xl w-full animate-slide-up overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -112,14 +112,14 @@ function Card({ id, Name, mrp, type, img, timeForDelivery, rating, offer }) {
             <div className="p-6">
               <div className="flex items-center gap-2 mb-4">
                 {vegIcon}
-                <h2 className="text-2xl font-bold text-gray-800">{Name}</h2>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{Name}</h2>
               </div>
 
               <div className="flex flex-wrap gap-4 mb-6">
-                <div className="badge bg-yellow-100 text-yellow-800">⭐ {rating}</div>
-                <div className="badge bg-blue-100 text-blue-800">🕒 {timeForDelivery} mins</div>
+                <div className="badge badge-warning">⭐ {rating}</div>
+                <div className="badge badge-primary">🕒 {timeForDelivery} mins</div>
                 <div className="flex items-center gap-2">
-                  <span className="badge bg-green-100 text-green-800">₹{finalPrice}</span>
+                  <span className="badge badge-success">₹{finalPrice}</span>
                   {offer > 0 && (
                     <span className="text-sm text-gray-500 line-through">₹{originalPrice}</span>
                   )}
