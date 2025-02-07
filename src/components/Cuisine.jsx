@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import CuisineCrd from "../Card/CuisineCrd";
-import Data from "../Data/Data";
-import Card from "../Card/Card";
-import CuisineData from "../Data/CuisineData";
+import CuisineCrd from "./Card/CuisineCrd";
+import Data from "./Data/Data";
+import Card from "./Card/Card";
+import CuisineData from "./Data/CuisineData";
 
 function Cuisine() {
   const [cuisineName, setCuisineName] = useState("Indian");

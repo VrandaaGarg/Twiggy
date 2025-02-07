@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Data from "../Data/Data";
-import Card from "../Card/Card";
-import ItemCard from "../Card/ItemCard";
+import Data from "./Data/Data";
+import Card from "./Card/Card";
+import ItemCard from "./Card/ItemCard";
 
 function Home() {
   const [randomIndices, setRandomIndices] = useState([]);
