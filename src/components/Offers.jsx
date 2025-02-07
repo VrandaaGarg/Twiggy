@@ -23,15 +23,17 @@ function Offers() {
   }, [activeFilter]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24">
         {/* Deal of the Day Section */}
         <section className="mb-12 animate-fade-in">
-          <div className="flex items-center gap-3 mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600 inline-block">
               Deal of the Day
             </h1>
-            <span className="animate-bounce text-2xl">💥</span>
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-10">
+              Grab the best offers before they're gone
+            </p>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -50,10 +52,14 @@ function Offers() {
         </section>
 
         {/* All Offers Section */}
-        <section className="py-12 border-t border-gray-200">
-          <div className="flex items-center gap-3 mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">All Offers</h2>
-            <span className="animate-bounce text-2xl">🎉</span>
+        <section className="py-12 border-t dark:border-gray-800">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600 inline-block">
+              All Offers
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-10">
+              Discover amazing discounts on your favorite dishes
+            </p>
           </div>
 
           {/* Discount Filters */}
@@ -65,8 +71,7 @@ function Offers() {
                 className={`px-4 py-2 rounded-full transition-all duration-200
                   ${activeFilter === value 
                     ? 'bg-red-500 text-white shadow-lg scale-105' 
-                    : 'bg-white text-gray-700 border border-red-500 hover:bg-red-50'}
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500`}
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-red-500 hover:bg-red-50 dark:hover:bg-red-900/20'}`}
               >
                 {label}
               </button>

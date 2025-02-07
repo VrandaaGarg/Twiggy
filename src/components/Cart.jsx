@@ -7,11 +7,11 @@ function Cart() {
 
   if (cartItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 pt-20">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20">
         <div className="max-w-2xl mx-auto text-center p-8">
           {/* Empty Cart Icon */}
           <div className="mb-8 animate-fade-in">
-            <div className="mx-auto w-48 h-48 rounded-full bg-gray-100 flex items-center justify-center">
+            <div className="mx-auto w-48 h-48 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
               <div className="relative">
                 <svg
                   className="w-24 h-24 text-gray-400"
@@ -35,10 +35,10 @@ function Cart() {
 
           {/* Empty Cart Content */}
           <div className="space-y-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            <h2 className="text-3xl font-bold text-gray-900">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
               Your cart looks empty
             </h2>
-            <p className="text-gray-600 max-w-md mx-auto text-lg">
+            <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto text-lg">
               Add some delicious items from our menu and start your food journey!
             </p>
             <Link
@@ -65,8 +65,8 @@ function Cart() {
           </div>
 
           {/* Suggestions */}
-          <div className="mt-12 pt-12 border-t border-gray-200">
-            <p className="text-gray-500 mb-4">Popular Categories</p>
+          <div className="mt-12 pt-12 border-t border-gray-200 dark:border-gray-800">
+            <p className="text-gray-500 dark:text-gray-400 mb-4">Popular Categories</p>
             <div className="flex flex-wrap justify-center gap-3">
               {['Pizza', 'Burgers', 'Indian', 'Chinese'].map(category => (
                 <Link
@@ -86,17 +86,17 @@ function Cart() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20">
       <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 flex items-center gap-3">
           <span>Your Cart</span>
-          <span className="text-lg font-medium text-gray-500">
+          <span className="text-lg font-medium text-gray-500 dark:text-gray-400">
             ({cartItems.length} {cartItems.length === 1 ? 'item' : 'items'})
           </span>
         </h1>
 
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-          <div className="divide-y divide-gray-200">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
             {cartItems.map((item) => (
               <div 
                 key={item.id} 
@@ -113,10 +113,10 @@ function Cart() {
                 <div className="sm:ml-6 flex-1">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                         {item.Name}
                       </h3>
-                      <p className="mt-1 text-sm text-gray-500">₹{item.mrp}</p>
+                      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">₹{item.mrp}</p>
                     </div>
                     <button
                       onClick={() => removeFromCart(item.id)}
@@ -130,31 +130,31 @@ function Cart() {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"
+                        className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600"
                       >
                         -
                       </button>
-                      <span className="w-12 text-center font-medium">
+                      <span className="w-12 text-center font-medium text-gray-900 dark:text-white">
                         {item.quantity}
                       </span>
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"
+                        className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600"
                       >
                         +
                       </button>
                     </div>
-                    <p className="font-semibold">₹{item.mrp * item.quantity}</p>
+                    <p className="font-semibold text-gray-900 dark:text-white">₹{item.mrp * item.quantity}</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="bg-gray-50 p-6">
+          <div className="bg-gray-50 dark:bg-gray-800 p-6">
             <div className="flex justify-between items-center mb-4">
-              <span className="text-lg font-medium text-gray-600">Subtotal</span>
-              <span className="text-3xl font-bold text-gray-900">₹{getCartTotal()}</span>
+              <span className="text-lg font-medium text-gray-600 dark:text-gray-400">Subtotal</span>
+              <span className="text-3xl font-bold text-gray-900 dark:text-white">₹{getCartTotal()}</span>
             </div>
             <button className="w-full bg-gradient-to-r from-primary to-primary-dark 
                              text-white py-4 rounded-xl font-semibold
@@ -162,7 +162,7 @@ function Cart() {
                              hover:-translate-y-0.5">
               Proceed to Checkout
             </button>
-            <p className="text-center text-sm text-gray-500 mt-4">
+            <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
               Free delivery on orders above ₹499
             </p>
           </div>
