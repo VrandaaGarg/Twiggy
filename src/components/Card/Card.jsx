@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useCart } from "../../context/CartContext";
 
-function Card({ id, Name, mrp, type, img, timeForDelivery, rating }) {
+function Card({ id, Name, mrp, type, img, timeForDelivery, rating, offer }) {
   const [showPopup, setShowPopup] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const { addToCart } = useCart();
@@ -23,9 +23,11 @@ function Card({ id, Name, mrp, type, img, timeForDelivery, rating }) {
     setTimeout(() => setShowNotification(false), 2000);
   };
 
+  const originalPrice = offer > 0 ? Math.round(mrp * (100 / (100 - offer))) : mrp;
+  const finalPrice = mrp;
+
   return (
     <div className="relative">
-      {/* Main Card */}
       <div className="card-base group cursor-pointer">
         {/* Image Container */}
         <div className="relative overflow-hidden h-48 sm:h-56">
@@ -38,6 +40,12 @@ function Card({ id, Name, mrp, type, img, timeForDelivery, rating }) {
           <div className="absolute top-2 right-2 bg-white p-1 rounded-lg shadow-md">
             {vegIcon}
           </div>
+          {offer > 0 && (
+            <div className="absolute top-2 left-2 bg-red-500 text-white px-5 py-1 
+                          rounded-full text-lg font-bold shadow-lg animate-pulse">
+              {offer}% OFF
+            </div>
+          )}
         </div>
 
         {/* Content Container */}
@@ -48,7 +56,14 @@ function Card({ id, Name, mrp, type, img, timeForDelivery, rating }) {
             <span className="badge bg-blue-100 text-blue-800">{timeForDelivery} mins</span>
           </div>
           <div className="flex items-center justify-between pt-2 border-t">
-            <span className="price-tag">₹{mrp}</span>
+            <div className="flex items-center gap-2">
+              <span className="price-tag">₹{finalPrice}</span>
+              {offer > 0 && (
+                <span className="text-sm text-gray-500 line-through">
+                  ₹{originalPrice}
+                </span>
+              )}
+            </div>
             <button 
               className="btn-primary flex items-center gap-2"
               onClick={handleAddToCart}
@@ -103,7 +118,12 @@ function Card({ id, Name, mrp, type, img, timeForDelivery, rating }) {
               <div className="flex flex-wrap gap-4 mb-6">
                 <div className="badge bg-yellow-100 text-yellow-800">⭐ {rating}</div>
                 <div className="badge bg-blue-100 text-blue-800">🕒 {timeForDelivery} mins</div>
-                <div className="badge bg-green-100 text-green-800">₹{mrp}</div>
+                <div className="flex items-center gap-2">
+                  <span className="badge bg-green-100 text-green-800">₹{finalPrice}</span>
+                  {offer > 0 && (
+                    <span className="text-sm text-gray-500 line-through">₹{originalPrice}</span>
+                  )}
+                </div>
               </div>
 
               <button 
