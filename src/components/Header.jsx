@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import logo from "/Images/logo.png";
 import ThemeBtn from "./ThemeBtn";
 import Data from "./Data/Data";
-
+import { FaUserCircle } from "react-icons/fa";
+import { useProfile } from "../context/ProfileContext";
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -19,7 +20,7 @@ function Header() {
   );
 
   const getItemQuantity = (itemId) => {
-    const cartItem = cartItems.find(item => item.id === itemId);
+    const cartItem = cartItems.find((item) => item.id === itemId);
     return cartItem ? cartItem.quantity : 0;
   };
 
@@ -54,12 +55,12 @@ function Header() {
   // Close search on escape key
   useEffect(() => {
     const handleEscape = (e) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setShowSearch(false);
       }
     };
-    window.addEventListener('keydown', handleEscape);
-    return () => window.removeEventListener('keydown', handleEscape);
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
   }, []);
 
   const navItems = [
@@ -69,14 +70,20 @@ function Header() {
     { name: "CUISINES", path: "cuisine" },
   ];
 
+  //Handling login button
+
+  const navigate = useNavigate();
+  const { user } = useProfile(); // Get logged-in user from ProfileContext
+
   return (
     <>
       <header
         className={`fixed top-0 w-full z-40 transition-all duration-300 
-        ${scrolled
+        ${
+          scrolled
             ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg"
             : "bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm"
-          }
+        }
         ${isOpen ? "bg-white dark:bg-gray-900" : ""}`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,7 +91,9 @@ function Header() {
             {/* Logo Section */}
             <NavLink to="/" className="flex-shrink-0 flex items-center gap-2">
               <img src={logo} alt="logo" className="h-8 w-auto sm:h-10" />
-              <span className="font-bold text-xl text-gray-900 dark:text-white">Twiggy</span>
+              <span className="font-bold text-xl text-gray-900 dark:text-white">
+                Twiggy
+              </span>
             </NavLink>
 
             {/* Desktop Navigation */}
@@ -97,8 +106,8 @@ function Header() {
                     `px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
                     hover:bg-gray-100 dark:hover:bg-gray-800
                     ${
-                      isActive 
-                        ? "text-primary dark:text-primary-light bg-blue-50 dark:bg-blue-900/20" 
+                      isActive
+                        ? "text-primary dark:text-primary-light bg-blue-50 dark:bg-blue-900/20"
                         : "text-gray-700 dark:text-gray-300"
                     }`
                   }
@@ -118,27 +127,37 @@ function Header() {
                 🔍
               </button>
               <ThemeBtn />
-              
+
               <NavLink
                 to="/cart"
                 className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               >
                 <span className="text-2xl">🛒</span>
                 {cartItemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs 
+                  <span
+                    className="absolute -top-1 -right-1 bg-red-500 text-white text-xs 
                                w-5 h-5 flex items-center justify-center rounded-full
-                               border-2 border-white dark:border-gray-900 shadow-md font-bold">
+                               border-2 border-white dark:border-gray-900 shadow-md font-bold"
+                  >
                     {cartItemCount}
                   </span>
                 )}
               </NavLink>
 
-              <button className="hidden md:flex items-center px-6 py-2.5 text-sm font-semibold 
-                             text-white bg-gradient-to-r from-primary to-primary-dark 
-                             rounded-lg hover:shadow-lg transform transition-all duration-200 
-                             hover:-translate-y-0.5 active:scale-95">
-                Login
-              </button>
+              {user ? (
+                <FaUserCircle
+                  size={28}
+                  className="cursor-pointer"
+                  onClick={() => navigate("/profile")}
+                />
+              ) : (
+                <button
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                  onClick={() => navigate("/login")}
+                >
+                  Login
+                </button>
+              )}
 
               {/* Mobile menu button */}
               <button
@@ -165,7 +184,11 @@ function Header() {
         {/* Mobile Menu */}
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out
-          ${isOpen ? "max-h-96 border-t border-gray-200 dark:border-gray-700" : "max-h-0"}`}
+          ${
+            isOpen
+              ? "max-h-96 border-t border-gray-200 dark:border-gray-700"
+              : "max-h-0"
+          }`}
         >
           <nav className="px-4 pt-2 pb-3 space-y-1 bg-white dark:bg-gray-900">
             {navItems.map(({ name, path }) => (
@@ -186,12 +209,16 @@ function Header() {
               </NavLink>
             ))}
             <div className="flex items-center justify-between py-2 px-3">
-              <span className="text-sm text-gray-600 dark:text-gray-400">Dark Mode</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                Dark Mode
+              </span>
               <ThemeBtn />
             </div>
-            <button className="w-full mt-2 px-3 py-2.5 text-base font-semibold text-white 
+            <button
+              className="w-full mt-2 px-3 py-2.5 text-base font-semibold text-white 
                            bg-gradient-to-r from-primary to-primary-dark
-                           rounded-lg hover:shadow-lg transform transition-all duration-200">
+                           rounded-lg hover:shadow-lg transform transition-all duration-200"
+            >
               Login
             </button>
           </nav>
