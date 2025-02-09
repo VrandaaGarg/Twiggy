@@ -1,9 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useCart } from "../context/CartContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useProfile } from "../context/ProfileContext";
 
-function Cart() {
+const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity, getCartTotal } = useCart();
+  const navigate = useNavigate();
+  const { user } = useProfile();
+
+  // Redirect unauthenticated users
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
+            Please login to view your cart
+          </h2>
+          <button
+            onClick={() => navigate('/login')}
+            className="mt-4 px-6 py-2 bg-primary text-white rounded-xl 
+                     hover:bg-primary-dark transition-colors"
+          >
+            Login
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (cartItems.length === 0) {
     return (
