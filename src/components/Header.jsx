@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import logo from "/Images/logo.png";
 import ThemeBtn from "./ThemeBtn";
 import Data from "./Data/Data";
-
+import { FaUserCircle } from "react-icons/fa";
+import { useProfile } from "../context/ProfileContext";
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const { cartItems, addToCart, removeFromCart } = useCart();
+  const { user } = useProfile();
 
   const cartItemCount = cartItems.reduce(
     (total, item) => total + item.quantity,
@@ -19,7 +22,7 @@ function Header() {
   );
 
   const getItemQuantity = (itemId) => {
-    const cartItem = cartItems.find(item => item.id === itemId);
+    const cartItem = cartItems.find((item) => item.id === itemId);
     return cartItem ? cartItem.quantity : 0;
   };
 
@@ -34,6 +37,7 @@ function Header() {
   // Close mobile menu on resize
   useEffect(() => {
     const handleResize = () => {
+      
       if (window.innerWidth >= 768) {
         setIsOpen(false);
       }
@@ -54,12 +58,12 @@ function Header() {
   // Close search on escape key
   useEffect(() => {
     const handleEscape = (e) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setShowSearch(false);
       }
     };
-    window.addEventListener('keydown', handleEscape);
-    return () => window.removeEventListener('keydown', handleEscape);
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
   }, []);
 
   const navItems = [
@@ -69,14 +73,32 @@ function Header() {
     { name: "CUISINES", path: "cuisine" },
   ];
 
+  //Handling login button
+
+  const navigate = useNavigate();
+
+  const handleAddToCart = (item) => {
+    if (!user) {
+      setShowLoginPrompt(true);
+      setTimeout(() => {
+        setShowLoginPrompt(false);
+        navigate('/login');
+      }, 2000);
+      return;
+    }
+    addToCart(item);
+    setShowSearch(false); // Close search after adding item
+  };
+
   return (
     <>
       <header
         className={`fixed top-0 w-full z-40 transition-all duration-300 
-        ${scrolled
+        ${
+          scrolled
             ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg"
             : "bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm"
-          }
+        }
         ${isOpen ? "bg-white dark:bg-gray-900" : ""}`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,7 +106,9 @@ function Header() {
             {/* Logo Section */}
             <NavLink to="/" className="flex-shrink-0 flex items-center gap-2">
               <img src={logo} alt="logo" className="h-8 w-auto sm:h-10" />
-              <span className="font-bold text-xl text-gray-900 dark:text-white">Twiggy</span>
+              <span className="font-bold text-xl text-gray-900 dark:text-white">
+                Twiggy
+              </span>
             </NavLink>
 
             {/* Desktop Navigation */}
@@ -97,8 +121,8 @@ function Header() {
                     `px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
                     hover:bg-gray-100 dark:hover:bg-gray-800
                     ${
-                      isActive 
-                        ? "text-primary dark:text-primary-light bg-blue-50 dark:bg-blue-900/20" 
+                      isActive
+                        ? "text-primary dark:text-primary-light bg-blue-50 dark:bg-blue-900/20"
                         : "text-gray-700 dark:text-gray-300"
                     }`
                   }
@@ -118,27 +142,52 @@ function Header() {
                 🔍
               </button>
               <ThemeBtn />
-              
+
               <NavLink
                 to="/cart"
                 className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               >
                 <span className="text-2xl">🛒</span>
                 {cartItemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs 
+                  <span
+                    className="absolute -top-1 -right-1 bg-red-500 text-white text-xs 
                                w-5 h-5 flex items-center justify-center rounded-full
-                               border-2 border-white dark:border-gray-900 shadow-md font-bold">
+                               border-2 border-white dark:border-gray-900 shadow-md font-bold"
+                  >
                     {cartItemCount}
                   </span>
                 )}
               </NavLink>
 
-              <button className="hidden md:flex items-center px-6 py-2.5 text-sm font-semibold 
-                             text-white bg-gradient-to-r from-primary to-primary-dark 
-                             rounded-lg hover:shadow-lg transform transition-all duration-200 
-                             hover:-translate-y-0.5 active:scale-95">
-                Login
-              </button>
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <NavLink
+                    to="/profile"
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl
+                             bg-gradient-to-r from-primary/10 to-primary-dark/10
+                             hover:from-primary/20 hover:to-primary-dark/20
+                             dark:from-gray-800 dark:to-gray-700
+                             transition-all duration-300"
+                  >
+                    <FaUserCircle className="w-5 h-5 text-primary dark:text-primary-light" />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {user.name?.split(' ')[0]}
+                    </span>
+                  </NavLink>
+                </div>
+              ) : (
+                <button
+                  onClick={() => navigate("/login")}
+                  className="flex items-center gap-2 px-6 py-2 rounded-xl
+                           bg-gradient-to-r from-primary to-primary-dark
+                           text-white font-medium
+                           hover:shadow-lg hover:scale-[1.02]
+                           active:scale-[0.98] transition-all duration-300"
+                >
+                  <FaUserCircle className="w-5 h-5" />
+                  <span>Login</span>
+                </button>
+              )}
 
               {/* Mobile menu button */}
               <button
@@ -165,7 +214,11 @@ function Header() {
         {/* Mobile Menu */}
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out
-          ${isOpen ? "max-h-96 border-t border-gray-200 dark:border-gray-700" : "max-h-0"}`}
+          ${
+            isOpen
+              ? "max-h-96 border-t border-gray-200 dark:border-gray-700"
+              : "max-h-0"
+          }`}
         >
           <nav className="px-4 pt-2 pb-3 space-y-1 bg-white dark:bg-gray-900">
             {navItems.map(({ name, path }) => (
@@ -186,17 +239,43 @@ function Header() {
               </NavLink>
             ))}
             <div className="flex items-center justify-between py-2 px-3">
-              <span className="text-sm text-gray-600 dark:text-gray-400">Dark Mode</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                Dark Mode
+              </span>
               <ThemeBtn />
             </div>
-            <button className="w-full mt-2 px-3 py-2.5 text-base font-semibold text-white 
-                           bg-gradient-to-r from-primary to-primary-dark
-                           rounded-lg hover:shadow-lg transform transition-all duration-200">
-              Login
-            </button>
+            {!user && (
+              <button
+                onClick={() => {
+                  navigate("/login");
+                  setIsOpen(false);
+                }}
+                className="w-full mt-2 px-4 py-2.5 rounded-xl
+                         bg-gradient-to-r from-primary to-primary-dark
+                         text-white font-medium
+                         hover:shadow-lg active:scale-[0.98] 
+                         transition-all duration-300
+                         flex items-center justify-center gap-2"
+              >
+                <FaUserCircle className="w-5 h-5" />
+                <span>Login</span>
+              </button>
+            )}
           </nav>
         </div>
       </header>
+
+      {/* Login Prompt Popup */}
+      {showLoginPrompt && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-md p-4 
+                    rounded-xl shadow-lg transform animate-slide-up backdrop-blur-lg
+                    bg-red-500/90 text-white z-50">
+          <div className="flex items-center justify-center gap-3">
+            <span className="text-2xl">⚠️</span>
+            <p className="font-medium">Please login first to add items to cart</p>
+          </div>
+        </div>
+      )}
 
       {/* Search Overlay */}
       {showSearch && (
@@ -232,84 +311,94 @@ function Header() {
               {/* Search Results */}
               <div className="max-h-[60vh] overflow-y-auto">
                 {searchTerm && (
-                  <>
-                    <div className="p-2">
-                      {searchResults.length > 0 ? (
-                        searchResults.map((item) => (
-                          <div
-                            key={item.id}
-                            className="flex items-center gap-4 p-2 hover:bg-gray-50 
-                                     dark:hover:bg-gray-700/50 rounded-lg"
-                          >
-                            <img
-                              src={item.img}
-                              alt={item.Name}
-                              className="w-16 h-16 object-cover rounded-lg"
-                            />
-                            <div className="flex-1">
-                              <h3 className="font-medium text-gray-900 dark:text-white">
-                                {item.Name}
-                              </h3>
-                              <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                                <span>⭐ {item.rating}</span>
-                                <span>•</span>
-                                <span>{item.timeForDelivery} mins</span>
-                              </div>
-                              <div className="flex items-center gap-2 mt-1">
-                                <span className="text-lg font-medium text-gray-900 dark:text-white">
-                                  ₹{item.mrp}
-                                </span>
-                                {item.offer > 0 && (
-                                  <span className="text-sm text-green-600 dark:text-green-400 font-medium">
-                                    {item.offer}% OFF
-                                  </span>
-                                )}
-                              </div>
+                  <div className="p-2">
+                    {searchResults.length > 0 ? (
+                      searchResults.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex items-center gap-4 p-2 hover:bg-gray-50 
+                                   dark:hover:bg-gray-700/50 rounded-lg"
+                        >
+                          <img
+                            src={item.img}
+                            alt={item.Name}
+                            className="w-16 h-16 object-cover rounded-lg"
+                          />
+                          <div className="flex-1">
+                            <h3 className="font-medium text-gray-900 dark:text-white">
+                              {item.Name}
+                            </h3>
+                            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                              <span>⭐ {item.rating}</span>
+                              <span>•</span>
+                              <span>{item.timeForDelivery} mins</span>
                             </div>
-                            <div className="flex items-center gap-2">
-                              {getItemQuantity(item.id) > 0 ? (
-                                <div className="flex items-center gap-2">
-                                  <button
-                                    onClick={() => removeFromCart(item.id)}
-                                    className="w-8 h-8 flex items-center justify-center rounded-lg 
-                                              bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 
-                                              dark:hover:bg-gray-600 transition-colors"
-                                  >
-                                    -
-                                  </button>
-                                  <span className="w-8 text-center font-medium">
-                                    {getItemQuantity(item.id)}
-                                  </span>
-                                  <button
-                                    onClick={() => addToCart(item)}
-                                    className="w-8 h-8 flex items-center justify-center rounded-lg 
-                                              bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 
-                                              dark:hover:bg-gray-600 transition-colors"
-                                  >
-                                    +
-                                  </button>
-                                </div>
-                              ) : (
-                                <button
-                                  onClick={() => addToCart(item)}
-                                  className="px-4 py-2 bg-primary text-white rounded-lg 
-                                            hover:bg-primary-dark transition-colors duration-200"
-                                >
-                                  Add
-                                </button>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-lg font-medium text-gray-900 dark:text-white">
+                                ₹{item.mrp}
+                              </span>
+                              {item.offer > 0 && (
+                                <span className="text-sm text-green-600 dark:text-green-400 font-medium">
+                                  {item.offer}% OFF
+                                </span>
                               )}
                             </div>
                           </div>
-                        ))
-                      ) : (
-                        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                          No dishes found for "{searchTerm}"
+                          <div className="flex items-center gap-2">
+                            {user && getItemQuantity(item.id) > 0 ? (
+                              <div className="flex items-center gap-2">
+                                <button
+                                  onClick={() => removeFromCart(item.id)}
+                                  className="w-8 h-8 flex items-center justify-center rounded-lg 
+                                            bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 
+                                            dark:hover:bg-gray-600 transition-colors"
+                                >
+                                  -
+                                </button>
+                                <span className="w-8 text-center font-medium">
+                                  {getItemQuantity(item.id)}
+                                </span>
+                                <button
+                                  onClick={() => addToCart(item)}
+                                  className="w-8 h-8 flex items-center justify-center rounded-lg 
+                                            bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 
+                                            dark:hover:bg-gray-600 transition-colors"
+                                >
+                                  +
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={() => handleAddToCart(item)}
+                                className="px-4 py-2 bg-primary text-white rounded-lg 
+                                          hover:bg-primary-dark transition-colors duration-200"
+                              >
+                                Add
+                              </button>
+                            )}
+                          </div>
                         </div>
-                      )}
-                    </div>
-                  </>
+                      ))
+                    ) : (
+                      <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                        No dishes found for "{searchTerm}"
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
+
+              {/* Login Prompt Toast */}
+              {showLoginPrompt && (
+                <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-md p-4 
+                             rounded-xl shadow-lg transform animate-slide-up backdrop-blur-lg
+                             bg-red-500/90 text-white z-50">
+                  <div className="flex items-center justify-center gap-3">
+                    <span className="text-2xl">⚠️</span>
+                    <p className="font-medium">Please login first to add items to cart</p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
