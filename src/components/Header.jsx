@@ -12,7 +12,9 @@ function Header() {
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const { cartItems, addToCart, removeFromCart } = useCart();
+  const { user } = useProfile();
 
   const cartItemCount = cartItems.reduce(
     (total, item) => total + item.quantity,
@@ -35,6 +37,7 @@ function Header() {
   // Close mobile menu on resize
   useEffect(() => {
     const handleResize = () => {
+      
       if (window.innerWidth >= 768) {
         setIsOpen(false);
       }
@@ -73,7 +76,19 @@ function Header() {
   //Handling login button
 
   const navigate = useNavigate();
-  const { user } = useProfile(); // Get logged-in user from ProfileContext
+
+  const handleAddToCart = (item) => {
+    if (!user) {
+      setShowLoginPrompt(true);
+      setTimeout(() => {
+        setShowLoginPrompt(false);
+        navigate('/login');
+      }, 2000);
+      return;
+    }
+    addToCart(item);
+    setShowSearch(false); // Close search after adding item
+  };
 
   return (
     <>
@@ -145,17 +160,32 @@ function Header() {
               </NavLink>
 
               {user ? (
-                <FaUserCircle
-                  size={28}
-                  className="cursor-pointer"
-                  onClick={() => navigate("/profile")}
-                />
+                <div className="flex items-center gap-2">
+                  <NavLink
+                    to="/profile"
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl
+                             bg-gradient-to-r from-primary/10 to-primary-dark/10
+                             hover:from-primary/20 hover:to-primary-dark/20
+                             dark:from-gray-800 dark:to-gray-700
+                             transition-all duration-300"
+                  >
+                    <FaUserCircle className="w-5 h-5 text-primary dark:text-primary-light" />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {user.name?.split(' ')[0]}
+                    </span>
+                  </NavLink>
+                </div>
               ) : (
                 <button
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md"
                   onClick={() => navigate("/login")}
+                  className="flex items-center gap-2 px-6 py-2 rounded-xl
+                           bg-gradient-to-r from-primary to-primary-dark
+                           text-white font-medium
+                           hover:shadow-lg hover:scale-[1.02]
+                           active:scale-[0.98] transition-all duration-300"
                 >
-                  Login
+                  <FaUserCircle className="w-5 h-5" />
+                  <span>Login</span>
                 </button>
               )}
 
@@ -214,16 +244,38 @@ function Header() {
               </span>
               <ThemeBtn />
             </div>
-            <button
-              className="w-full mt-2 px-3 py-2.5 text-base font-semibold text-white 
-                           bg-gradient-to-r from-primary to-primary-dark
-                           rounded-lg hover:shadow-lg transform transition-all duration-200"
-            >
-              Login
-            </button>
+            {!user && (
+              <button
+                onClick={() => {
+                  navigate("/login");
+                  setIsOpen(false);
+                }}
+                className="w-full mt-2 px-4 py-2.5 rounded-xl
+                         bg-gradient-to-r from-primary to-primary-dark
+                         text-white font-medium
+                         hover:shadow-lg active:scale-[0.98] 
+                         transition-all duration-300
+                         flex items-center justify-center gap-2"
+              >
+                <FaUserCircle className="w-5 h-5" />
+                <span>Login</span>
+              </button>
+            )}
           </nav>
         </div>
       </header>
+
+      {/* Login Prompt Popup */}
+      {showLoginPrompt && (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-md p-4 
+                    rounded-xl shadow-lg transform animate-slide-up backdrop-blur-lg
+                    bg-red-500/90 text-white z-50">
+          <div className="flex items-center justify-center gap-3">
+            <span className="text-2xl">⚠️</span>
+            <p className="font-medium">Please login first to add items to cart</p>
+          </div>
+        </div>
+      )}
 
       {/* Search Overlay */}
       {showSearch && (
@@ -259,84 +311,94 @@ function Header() {
               {/* Search Results */}
               <div className="max-h-[60vh] overflow-y-auto">
                 {searchTerm && (
-                  <>
-                    <div className="p-2">
-                      {searchResults.length > 0 ? (
-                        searchResults.map((item) => (
-                          <div
-                            key={item.id}
-                            className="flex items-center gap-4 p-2 hover:bg-gray-50 
-                                     dark:hover:bg-gray-700/50 rounded-lg"
-                          >
-                            <img
-                              src={item.img}
-                              alt={item.Name}
-                              className="w-16 h-16 object-cover rounded-lg"
-                            />
-                            <div className="flex-1">
-                              <h3 className="font-medium text-gray-900 dark:text-white">
-                                {item.Name}
-                              </h3>
-                              <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                                <span>⭐ {item.rating}</span>
-                                <span>•</span>
-                                <span>{item.timeForDelivery} mins</span>
-                              </div>
-                              <div className="flex items-center gap-2 mt-1">
-                                <span className="text-lg font-medium text-gray-900 dark:text-white">
-                                  ₹{item.mrp}
-                                </span>
-                                {item.offer > 0 && (
-                                  <span className="text-sm text-green-600 dark:text-green-400 font-medium">
-                                    {item.offer}% OFF
-                                  </span>
-                                )}
-                              </div>
+                  <div className="p-2">
+                    {searchResults.length > 0 ? (
+                      searchResults.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex items-center gap-4 p-2 hover:bg-gray-50 
+                                   dark:hover:bg-gray-700/50 rounded-lg"
+                        >
+                          <img
+                            src={item.img}
+                            alt={item.Name}
+                            className="w-16 h-16 object-cover rounded-lg"
+                          />
+                          <div className="flex-1">
+                            <h3 className="font-medium text-gray-900 dark:text-white">
+                              {item.Name}
+                            </h3>
+                            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                              <span>⭐ {item.rating}</span>
+                              <span>•</span>
+                              <span>{item.timeForDelivery} mins</span>
                             </div>
-                            <div className="flex items-center gap-2">
-                              {getItemQuantity(item.id) > 0 ? (
-                                <div className="flex items-center gap-2">
-                                  <button
-                                    onClick={() => removeFromCart(item.id)}
-                                    className="w-8 h-8 flex items-center justify-center rounded-lg 
-                                              bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 
-                                              dark:hover:bg-gray-600 transition-colors"
-                                  >
-                                    -
-                                  </button>
-                                  <span className="w-8 text-center font-medium">
-                                    {getItemQuantity(item.id)}
-                                  </span>
-                                  <button
-                                    onClick={() => addToCart(item)}
-                                    className="w-8 h-8 flex items-center justify-center rounded-lg 
-                                              bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 
-                                              dark:hover:bg-gray-600 transition-colors"
-                                  >
-                                    +
-                                  </button>
-                                </div>
-                              ) : (
-                                <button
-                                  onClick={() => addToCart(item)}
-                                  className="px-4 py-2 bg-primary text-white rounded-lg 
-                                            hover:bg-primary-dark transition-colors duration-200"
-                                >
-                                  Add
-                                </button>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-lg font-medium text-gray-900 dark:text-white">
+                                ₹{item.mrp}
+                              </span>
+                              {item.offer > 0 && (
+                                <span className="text-sm text-green-600 dark:text-green-400 font-medium">
+                                  {item.offer}% OFF
+                                </span>
                               )}
                             </div>
                           </div>
-                        ))
-                      ) : (
-                        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                          No dishes found for "{searchTerm}"
+                          <div className="flex items-center gap-2">
+                            {user && getItemQuantity(item.id) > 0 ? (
+                              <div className="flex items-center gap-2">
+                                <button
+                                  onClick={() => removeFromCart(item.id)}
+                                  className="w-8 h-8 flex items-center justify-center rounded-lg 
+                                            bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 
+                                            dark:hover:bg-gray-600 transition-colors"
+                                >
+                                  -
+                                </button>
+                                <span className="w-8 text-center font-medium">
+                                  {getItemQuantity(item.id)}
+                                </span>
+                                <button
+                                  onClick={() => addToCart(item)}
+                                  className="w-8 h-8 flex items-center justify-center rounded-lg 
+                                            bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 
+                                            dark:hover:bg-gray-600 transition-colors"
+                                >
+                                  +
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={() => handleAddToCart(item)}
+                                className="px-4 py-2 bg-primary text-white rounded-lg 
+                                          hover:bg-primary-dark transition-colors duration-200"
+                              >
+                                Add
+                              </button>
+                            )}
+                          </div>
                         </div>
-                      )}
-                    </div>
-                  </>
+                      ))
+                    ) : (
+                      <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                        No dishes found for "{searchTerm}"
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
+
+              {/* Login Prompt Toast */}
+              {showLoginPrompt && (
+                <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-md p-4 
+                             rounded-xl shadow-lg transform animate-slide-up backdrop-blur-lg
+                             bg-red-500/90 text-white z-50">
+                  <div className="flex items-center justify-center gap-3">
+                    <span className="text-2xl">⚠️</span>
+                    <p className="font-medium">Please login first to add items to cart</p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

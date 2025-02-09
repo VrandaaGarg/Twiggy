@@ -23,15 +23,15 @@ import Profile from "./components/Profile.jsx";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
-      <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/offer" element={<Offers />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/cuisine" element={<Cuisine />} />
+      <Route index element={<Home />} />
+      <Route path="about" element={<About />} />
+      <Route path="offer" element={<Offers />} />
+      <Route path="cart" element={<Cart />} />
+      <Route path="cuisine" element={<Cuisine />} />
       <Route path="user/:userid" element={<User />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/profile" element={<Profile />} />
+      <Route path="signup" element={<SignUp />} />
+      <Route path="login" element={<Login />} />
+      <Route path="profile" element={<Profile />} />
     </Route>
   )
 );
