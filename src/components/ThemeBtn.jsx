@@ -26,7 +26,7 @@ export default function ThemeBtn() {
         <HiSun
           className={`w-6 h-6 text-yellow-500 absolute top-0 left-0 
                    transition-all duration-300 transform
-                   ${themeMode === 'dark' 
+                   ${themeMode === 'dark'
                      ? 'rotate-180 opacity-0' 
                      : 'rotate-0 opacity-100'}`}
         />
