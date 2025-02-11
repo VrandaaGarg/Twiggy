@@ -88,12 +88,12 @@ function Card({ id, Name, mrp, type, img, timeForDelivery, rating, offer }) {
           onClick={() => setShowPopup(false)}
         >
           <div 
-            className="relative bg-white dark:bg-gray-800 rounded-2xl max-w-xl w-full animate-slide-up overflow-hidden"
+            className="relative bg-white dark:bg-gray-800 rounded-2xl max-w-xl w-full  overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
-              className="absolute top-4 right-4 z-10 bg-white/80 rounded-full p-2 backdrop-blur-sm hover:bg-white transition-colors"
+              className="absolute top-4 h-10 w-10 right-4 z-10 bg-white/80 rounded-full p-2 backdrop-blur-sm hover:bg-white transition-colors hover:text-gray-400"
               onClick={() => setShowPopup(false)}
             >
               ✕

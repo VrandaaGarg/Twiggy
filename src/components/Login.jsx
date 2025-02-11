@@ -116,7 +116,7 @@ const Login = () => {
                     required
                     className="block w-full pl-10 pr-4 py-3 rounded-xl 
                              bg-gray-50 dark:bg-gray-700/50 
-                             border border-gray-200 dark:border-gray-600
+                             border border-gray-200 dark:border-gray-600 dark:text-gray-300
                              focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark
                              focus:border-transparent outline-none transition-colors"
                   />
@@ -139,7 +139,7 @@ const Login = () => {
                     onChange={handleChange}
                     required
                     className="block w-full pl-10 pr-4 py-3 rounded-xl 
-                             bg-gray-50 dark:bg-gray-700/50 
+                             bg-gray-50 dark:bg-gray-700/50 dark:text-gray-300
                              border border-gray-200 dark:border-gray-600
                              focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark
                              focus:border-transparent outline-none transition-colors"
