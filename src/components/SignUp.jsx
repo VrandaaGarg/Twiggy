@@ -94,6 +94,8 @@ const SignUp = () => {
                     name="name"
                     placeholder="Full Name"
                     onChange={handleChange}
+                
+                    
                   />
                   <InputField
                     icon={<FiPhone />}
@@ -201,7 +203,7 @@ const InputField = ({ icon, name, type = "text", placeholder, onChange }) => (
       onChange={onChange}
       required
       className="block w-full pl-10 pr-3 py-3 bg-gray-50 dark:bg-gray-700/50
-               border border-gray-200 dark:border-gray-600 rounded-xl
+               border border-gray-200 dark:border-gray-600 rounded-xl dark:text-gray-300
                focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark
                focus:border-transparent outline-none transition-all"
     />

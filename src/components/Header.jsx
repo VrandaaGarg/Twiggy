@@ -37,7 +37,6 @@ function Header() {
   // Close mobile menu on resize
   useEffect(() => {
     const handleResize = () => {
-      
       if (window.innerWidth >= 768) {
         setIsOpen(false);
       }
@@ -82,7 +81,7 @@ function Header() {
       setShowLoginPrompt(true);
       setTimeout(() => {
         setShowLoginPrompt(false);
-        navigate('/login');
+        navigate("/login");
       }, 2000);
       return;
     }
@@ -133,7 +132,7 @@ function Header() {
             </nav>
 
             {/* Right section */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1 md:gap-4">
               <button
                 onClick={() => setShowSearch(true)}
                 className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -163,7 +162,7 @@ function Header() {
                 <div className="flex items-center gap-2">
                   <NavLink
                     to="/profile"
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl
+                    className="flex items-center gap-2 px-2 md:px-4 py-2 rounded-xl
                              bg-gradient-to-r from-primary/10 to-primary-dark/10
                              hover:from-primary/20 hover:to-primary-dark/20
                              dark:from-gray-800 dark:to-gray-700
@@ -171,21 +170,21 @@ function Header() {
                   >
                     <FaUserCircle className="w-5 h-5 text-primary dark:text-primary-light" />
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      {user.name?.split(' ')[0]}
+                      {user.name?.split(" ")[0]}
                     </span>
                   </NavLink>
                 </div>
               ) : (
                 <button
                   onClick={() => navigate("/login")}
-                  className="flex items-center gap-2 px-6 py-2 rounded-xl
+                  className="flex items-center gap-2 px-2 md:px-6 py-1 md:py-2 rounded-xl
                            bg-gradient-to-r from-primary to-primary-dark
                            text-white font-medium
                            hover:shadow-lg hover:scale-[1.02]
                            active:scale-[0.98] transition-all duration-300"
                 >
                   <FaUserCircle className="w-5 h-5" />
-                  <span>Login</span>
+                  <span className="text-xs">Login</span>
                 </button>
               )}
 
@@ -267,12 +266,16 @@ function Header() {
 
       {/* Login Prompt Popup */}
       {showLoginPrompt && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-md p-4 
+        <div
+          className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-md p-4 
                     rounded-xl shadow-lg transform animate-slide-up backdrop-blur-lg
-                    bg-red-500/90 text-white z-50">
+                    bg-red-500/90 text-white z-50"
+        >
           <div className="flex items-center justify-center gap-3">
             <span className="text-2xl">⚠️</span>
-            <p className="font-medium">Please login first to add items to cart</p>
+            <p className="font-medium">
+              Please login first to add items to cart
+            </p>
           </div>
         </div>
       )}
@@ -390,12 +393,16 @@ function Header() {
 
               {/* Login Prompt Toast */}
               {showLoginPrompt && (
-                <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-md p-4 
+                <div
+                  className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-md p-4 
                              rounded-xl shadow-lg transform animate-slide-up backdrop-blur-lg
-                             bg-red-500/90 text-white z-50">
+                             bg-red-500/90 text-white z-50"
+                >
                   <div className="flex items-center justify-center gap-3">
                     <span className="text-2xl">⚠️</span>
-                    <p className="font-medium">Please login first to add items to cart</p>
+                    <p className="font-medium">
+                      Please login first to add items to cart
+                    </p>
                   </div>
                 </div>
               )}
