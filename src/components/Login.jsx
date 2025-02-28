@@ -185,7 +185,7 @@ const Login = () => {
           </div>
 
           <div className="flex flex-col gap-4 items-center">
-            <span className="text-sm text-gray-500">New to Twiggy?</span>
+            <span className="text-sm text-gray-500">New to SmartBite?</span>
             <button
               onClick={() => navigate('/signup')}
               className="w-full py-3 px-4 bg-red-500 dark:bg-red-600

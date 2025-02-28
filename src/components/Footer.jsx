@@ -67,10 +67,7 @@ function Footer() {
           {/* Brand Section - Always visible */}
           <div className="pb-6 md:pb-0 border-b border-gray-100 dark:border-gray-800 md:border-none">
             <Link to="/" className="inline-flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-                <img src={logo} alt="Twiggy" className="w-6 h-6" />
-              </div>
-              <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">Twiggy</span>
+              <span className="text-2xl font-bold text-gray-900 dark:text-gray-100"><span className="text-red-600">Smart</span>Bite</span>
             </Link>
             <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
               Your favorite food, delivered with love and care.

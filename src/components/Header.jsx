@@ -104,9 +104,8 @@ function Header() {
           <div className="flex justify-between items-center h-16">
             {/* Logo Section */}
             <NavLink to="/" className="flex-shrink-0 flex items-center gap-2">
-              <img src={logo} alt="logo" className="h-8 w-auto sm:h-10" />
               <span className="font-bold text-xl text-gray-900 dark:text-white">
-                Twiggy
+                <span className="text-red-600">Smart</span>Bite
               </span>
             </NavLink>
 

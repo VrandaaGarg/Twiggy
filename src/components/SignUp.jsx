@@ -36,7 +36,7 @@ const SignUp = () => {
     login(user);
     setNotification({
       show: true,
-      message: 'Account created successfully! Welcome to Twiggy',
+      message: 'Account created successfully! Welcome to SmartBite',
       type: 'success'
     });
     setTimeout(() => {
@@ -74,7 +74,7 @@ const SignUp = () => {
         <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
           <div className="text-center space-y-2 mb-8">
             <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-              Join Twiggy
+              Join SmartBite
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
               Create your account and start ordering delicious food
