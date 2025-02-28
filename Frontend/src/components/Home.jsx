@@ -151,9 +151,10 @@ function Home() {
                   onClick={() => setter(!state)}
                   className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200
                   transform hover:-translate-y-0.5 hover:shadow-md
-                  ${state 
-                    ? activeClass 
-                    : `${inactiveClass} dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700`
+                  ${
+                    state
+                      ? activeClass
+                      : `${inactiveClass} dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700`
                   }
                   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
                   dark:focus:ring-offset-gray-900`}

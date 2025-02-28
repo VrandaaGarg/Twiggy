@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProfile } from "../context/ProfileContext";
-import { FiUser, FiPhone, FiMail, FiLock, FiMapPin, FiHome } from "react-icons/fi";
+import {
+  FiUser,
+  FiPhone,
+  FiMail,
+  FiLock,
+  FiMapPin,
+  FiHome,
+} from "react-icons/fi";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -16,7 +23,11 @@ const SignUp = () => {
     password: "",
   });
 
-  const [notification, setNotification] = useState({ show: false, message: '', type: '' });
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+    type: "",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,8 +47,8 @@ const SignUp = () => {
     login(user);
     setNotification({
       show: true,
-      message: 'Account created successfully! Welcome to Twiggy',
-      type: 'success'
+      message: "Account created successfully! Welcome to SmartBite",
+      type: "success",
     });
     setTimeout(() => {
       navigate("/");
@@ -58,11 +69,15 @@ const SignUp = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 py-12 px-4 relative">
       {/* Updated Notification Toast - Now at bottom */}
       {notification.show && (
-        <div className={`fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-md p-4 
+        <div
+          className={`fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-md p-4 
                       rounded-xl shadow-lg transform animate-slide-up backdrop-blur-lg
-                      ${notification.type === 'success' 
-                        ? 'bg-green-500/90 text-white' 
-                        : 'bg-red-500/90 text-white'}`}>
+                      ${
+                        notification.type === "success"
+                          ? "bg-green-500/90 text-white"
+                          : "bg-red-500/90 text-white"
+                      }`}
+        >
           <div className="flex items-center justify-center gap-3">
             <span className="text-2xl">✅</span>
             <p className="font-medium">{notification.message}</p>
@@ -70,11 +85,13 @@ const SignUp = () => {
         </div>
       )}
 
-      <div className="max-w-3xl mx-auto mt-10"> {/* Added mt-10 here */}
+      <div className="max-w-3xl mx-auto mt-10">
+        {" "}
+        {/* Added mt-10 here */}
         <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
           <div className="text-center space-y-2 mb-8">
             <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-              Join Twiggy
+              Join SmartBite
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
               Create your account and start ordering delicious food
@@ -190,8 +207,10 @@ const SignUp = () => {
 // Update InputField component with modern styling
 const InputField = ({ icon, name, type = "text", placeholder, onChange }) => (
   <div className="relative group">
-    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none 
-                  text-gray-400 group-focus-within:text-primary transition-colors">
+    <div
+      className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none 
+                  text-gray-400 group-focus-within:text-primary transition-colors"
+    >
       {icon}
     </div>
     <input

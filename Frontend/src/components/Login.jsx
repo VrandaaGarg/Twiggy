@@ -6,7 +6,6 @@ import { FcGoogle } from "react-icons/fc";
 import { BsApple, BsFacebook } from "react-icons/bs";
 import SignUp from "./SignUp";
 
-
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useProfile();
@@ -14,7 +13,11 @@ const Login = () => {
     emailOrPhone: "",
     password: "",
   });
-  const [notification, setNotification] = useState({ show: false, message: '', type: '' });
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+    type: "",
+  });
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -33,8 +36,8 @@ const Login = () => {
       login(storedUser);
       setNotification({
         show: true,
-        message: 'Welcome back! Login successful',
-        type: 'success'
+        message: "Welcome back! Login successful",
+        type: "success",
       });
       setTimeout(() => {
         navigate("/");
@@ -42,8 +45,8 @@ const Login = () => {
     } else {
       setNotification({
         show: true,
-        message: 'Invalid credentials. Please try again.',
-        type: 'error'
+        message: "Invalid credentials. Please try again.",
+        type: "error",
       });
     }
   };
@@ -59,23 +62,30 @@ const Login = () => {
   }, [notification.show]);
 
   const socialProviders = [
-    { name: 'Google', icon: <FcGoogle className="w-6 h-6" /> },
-    { name: 'Apple', icon: <BsApple className="w-6 h-6" /> },
-    { name: 'Facebook', icon: <BsFacebook className="w-6 h-6 text-blue-600" /> },
+    { name: "Google", icon: <FcGoogle className="w-6 h-6" /> },
+    { name: "Apple", icon: <BsApple className="w-6 h-6" /> },
+    {
+      name: "Facebook",
+      icon: <BsFacebook className="w-6 h-6 text-blue-600" />,
+    },
   ];
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 px-4 relative">
       {/* Updated Notification Toast - Now at bottom */}
       {notification.show && (
-        <div className={`fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-md p-4 
+        <div
+          className={`fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-md p-4 
                       rounded-xl shadow-lg transform animate-slide-up backdrop-blur-lg
-                      ${notification.type === 'success' 
-                        ? 'bg-green-500/90 text-white' 
-                        : 'bg-red-500/90 text-white'}`}>
+                      ${
+                        notification.type === "success"
+                          ? "bg-green-500/90 text-white"
+                          : "bg-red-500/90 text-white"
+                      }`}
+        >
           <div className="flex items-center justify-center gap-3">
             <span className="text-2xl">
-              {notification.type === 'success' ? '✅' : '❌'}
+              {notification.type === "success" ? "✅" : "❌"}
             </span>
             <p className="font-medium">{notification.message}</p>
           </div>
@@ -84,10 +94,12 @@ const Login = () => {
 
       {/* Main Login Card */}
       <div className="w-full max-w-md transform hover:scale-[1.01] transition-all duration-300 mt-10">
-        <div className="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-3xl 
+        <div
+          className="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-3xl 
                      shadow-xl space-y-8 border border-gray-200 dark:border-gray-700
                      before:absolute before:inset-0 before:bg-gradient-to-r before:from-primary/5 
-                     before:to-blue-500/5 before:rounded-3xl">
+                     before:to-blue-500/5 before:rounded-3xl"
+        >
           <div className="text-center space-y-2">
             <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
               Welcome Back!
@@ -104,8 +116,10 @@ const Login = () => {
                   Email or Phone
                 </label>
                 <div className="mt-1 relative">
-                  <div className="absolute inset-y-0 left-3 flex items-center 
-                              pointer-events-none text-gray-400">
+                  <div
+                    className="absolute inset-y-0 left-3 flex items-center 
+                              pointer-events-none text-gray-400"
+                  >
                     <FiMail />
                   </div>
                   <input
@@ -128,8 +142,10 @@ const Login = () => {
                   Password
                 </label>
                 <div className="mt-1 relative">
-                  <div className="absolute inset-y-0 left-3 flex items-center 
-                              pointer-events-none text-gray-400">
+                  <div
+                    className="absolute inset-y-0 left-3 flex items-center 
+                              pointer-events-none text-gray-400"
+                  >
                     <FiLock />
                   </div>
                   <input
@@ -155,9 +171,11 @@ const Login = () => {
                        transform transition-all duration-300
                        hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
             >
-              <div className="absolute inset-0 w-1/2 h-full transition-all
+              <div
+                className="absolute inset-0 w-1/2 h-full transition-all
                            bg-gradient-to-r from-white/20 to-transparent
-                           group-hover:translate-x-[150%] duration-700"></div>
+                           group-hover:translate-x-[150%] duration-700"
+              ></div>
               Sign in
             </button>
           </form>
@@ -185,9 +203,9 @@ const Login = () => {
           </div>
 
           <div className="flex flex-col gap-4 items-center">
-            <span className="text-sm text-gray-500">New to Twiggy?</span>
+            <span className="text-sm text-gray-500">New to SmartBite?</span>
             <button
-              onClick={() => navigate('/signup')}
+              onClick={() => navigate("/signup")}
               className="w-full py-3 px-4 bg-red-500 dark:bg-red-600
                        text-white dark:text-white rounded-xl font-medium
                        hover:bg-red dark:hover:bg-gray-600
