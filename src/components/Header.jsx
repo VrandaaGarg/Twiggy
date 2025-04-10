@@ -93,20 +93,18 @@ function Header() {
     <>
       <header
         className={`fixed top-0 w-full z-40 transition-all duration-300 
-        ${
-          scrolled
+        ${scrolled
             ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg"
             : "bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm"
-        }
+          }
         ${isOpen ? "bg-white dark:bg-gray-900" : ""}`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo Section */}
             <NavLink to="/" className="flex-shrink-0 flex items-center gap-2">
-              <img src={logo} alt="logo" className="h-8 w-auto sm:h-10" />
               <span className="font-bold text-xl text-gray-900 dark:text-white">
-                Twiggy
+                Smart<span className="text-red-600">Bite</span>
               </span>
             </NavLink>
 
@@ -119,10 +117,9 @@ function Header() {
                   className={({ isActive }) =>
                     `px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
                     hover:bg-gray-100 dark:hover:bg-gray-800
-                    ${
-                      isActive
-                        ? "text-primary dark:text-primary-light bg-blue-50 dark:bg-blue-900/20"
-                        : "text-gray-700 dark:text-gray-300"
+                    ${isActive
+                      ? "text-primary dark:text-primary-light bg-blue-50 dark:bg-blue-900/20"
+                      : "text-gray-700 dark:text-gray-300"
                     }`
                   }
                 >
@@ -213,11 +210,10 @@ function Header() {
         {/* Mobile Menu */}
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out
-          ${
-            isOpen
+          ${isOpen
               ? "max-h-96 border-t border-gray-200 dark:border-gray-700"
               : "max-h-0"
-          }`}
+            }`}
         >
           <nav className="px-4 pt-2 pb-3 space-y-1 bg-white dark:bg-gray-900">
             {navItems.map(({ name, path }) => (
@@ -226,10 +222,9 @@ function Header() {
                 to={`/${path}`}
                 className={({ isActive }) =>
                   `block px-3 py-2 rounded-lg text-base font-medium transition-colors
-                  ${
-                    isActive
-                      ? "bg-primary text-white"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  ${isActive
+                    ? "bg-primary text-white"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                   }`
                 }
                 onClick={() => setIsOpen(false)}

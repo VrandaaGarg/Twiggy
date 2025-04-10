@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,NavLink } from "react-router-dom";
 import logo from "/Images/logo.png";
 // Import icons
 import { FaTwitter, FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
@@ -66,12 +66,11 @@ function Footer() {
         <div className="py-8 md:py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 md:gap-12">
           {/* Brand Section - Always visible */}
           <div className="pb-6 md:pb-0 border-b border-gray-100 dark:border-gray-800 md:border-none">
-            <Link to="/" className="inline-flex items-center gap-3">
-              <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-                <img src={logo} alt="Twiggy" className="w-6 h-6" />
-              </div>
-              <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">Twiggy</span>
-            </Link>
+            <NavLink to="/" className="flex-shrink-0 flex items-center gap-2">
+              <span className="font-bold text-xl text-gray-900 dark:text-white">
+                Smart<span className="text-red-600">Bite</span>
+              </span>
+            </NavLink>
             <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
               Your favorite food, delivered with love and care.
             </p>
@@ -130,7 +129,7 @@ function Footer() {
         {/* Bottom Bar - Simplified for mobile */}
         <div className="py-4 md:py-6 border-t border-gray-100 dark:border-gray-800 text-center md:text-left">
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            © {new Date().getFullYear()} Twiggy. All rights reserved.
+            © {new Date().getFullYear()} SmartBite. All rights reserved.
           </p>
         </div>
       </div>

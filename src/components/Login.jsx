@@ -4,6 +4,7 @@ import { useProfile } from "../context/ProfileContext";
 import { FiMail, FiLock } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import { BsApple, BsFacebook } from "react-icons/bs";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import SignUp from "./SignUp";
 
 
@@ -15,6 +16,8 @@ const Login = () => {
     password: "",
   });
   const [notification, setNotification] = useState({ show: false, message: '', type: '' });
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePassword = () => setShowPassword(prev => !prev);
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -65,14 +68,14 @@ const Login = () => {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 px-4 relative">
+    <div className="min-h-screen py-16 flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 px-4 relative">
       {/* Updated Notification Toast - Now at bottom */}
       {notification.show && (
         <div className={`fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-md p-4 
                       rounded-xl shadow-lg transform animate-slide-up backdrop-blur-lg
-                      ${notification.type === 'success' 
-                        ? 'bg-green-500/90 text-white' 
-                        : 'bg-red-500/90 text-white'}`}>
+                      ${notification.type === 'success'
+            ? 'bg-green-500/90 text-white'
+            : 'bg-red-500/90 text-white'}`}>
           <div className="flex items-center justify-center gap-3">
             <span className="text-2xl">
               {notification.type === 'success' ? '✅' : '❌'}
@@ -128,22 +131,32 @@ const Login = () => {
                   Password
                 </label>
                 <div className="mt-1 relative">
-                  <div className="absolute inset-y-0 left-3 flex items-center 
-                              pointer-events-none text-gray-400">
+                  {/* Left Icon */}
+                  <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
                     <FiLock />
                   </div>
+
+                  {/* Input with toggle type */}
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     placeholder="Enter your password"
                     onChange={handleChange}
                     required
-                    className="block w-full pl-10 pr-4 py-3 rounded-xl 
-                             bg-gray-50 dark:bg-gray-700/50 dark:text-gray-300
-                             border border-gray-200 dark:border-gray-600
-                             focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark
-                             focus:border-transparent outline-none transition-colors"
+                    className="block w-full pl-10 pr-10 py-3 rounded-xl 
+                 bg-gray-50 dark:bg-gray-700/50 dark:text-gray-300
+                 border border-gray-200 dark:border-gray-600
+                 focus:ring-2 focus:ring-primary dark:focus:ring-primary-dark
+                 focus:border-transparent outline-none transition-colors"
                   />
+
+                  {/* Toggle Eye Icon */}
+                  <div
+                    onClick={togglePassword}
+                    className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-400 hover:text-primary"
+                  >
+                    {showPassword ? <FiEyeOff /> : <FiEye />}
+                  </div>
                 </div>
               </div>
             </div>
@@ -185,7 +198,7 @@ const Login = () => {
           </div>
 
           <div className="flex flex-col gap-4 items-center">
-            <span className="text-sm text-gray-500">New to Twiggy?</span>
+            <span className="text-sm text-gray-500">New to SmartBite?</span>
             <button
               onClick={() => navigate('/signup')}
               className="w-full py-3 px-4 bg-red-500 dark:bg-red-600

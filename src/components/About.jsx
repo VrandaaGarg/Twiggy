@@ -12,9 +12,9 @@ function About() {
       <div className="max-w-4xl mx-auto">
         {/* Main Header */}
         <div className="text-center mb-12">
-          <Header>About TWIGGY</Header>
+          <Header>About SmartBite</Header>
           <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
-            Welcome to Twiggy! We are passionate about bringing you a delightful
+            Welcome to SmartBite! We are passionate about bringing you a delightful
             culinary experience right to your doorstep.
           </p>
         </div>
@@ -35,7 +35,7 @@ function About() {
           <section>
             <Header>What We Offer</Header>
             <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
-              At Twiggy, we curate a diverse selection of cuisines, from hearty Indian
+              At SmartBite, we curate a diverse selection of cuisines, from hearty Indian
               delicacies to exotic Middle Eastern dishes and everything in between.
               Our menu is carefully crafted to cater to every palate, ensuring there's
               something special for everyone.
@@ -84,7 +84,7 @@ function About() {
               offers, and mouth-watering food inspirations.
               <br />
               <br />
-              Thank you for choosing Twiggy. Let's savor the flavors together!
+              Thank you for choosing SmartBite. Let's savor the flavors together!
             </p>
           </section>
         </div>
